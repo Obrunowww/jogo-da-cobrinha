@@ -11,6 +11,9 @@ const tamanhoDoObjeto = 5;
 const larguraTelaDoJogo = window.getComputedStyle(jogo).width
 const alturaTelaDoJogo = window.getComputedStyle(jogo).height
 const velocidadeJogo = 75;
+const telaDeFimDeJogo = document.querySelector("[data-fimDeJogo]");
+const recomeçar = document.querySelector("[data-recomeçar]");
+const mostrarScore = document.querySelector("[data-score2]")
 
 
 let ligar = false;
@@ -23,7 +26,7 @@ let cobra = [
     { x: tamanhoDoObjeto, y: 0 },
     { x: 0, y: 0 }
 ]
-
+recomeçar.addEventListener("click", recomeçarOJogo);
 botãoDeReset.addEventListener("click", resetarOJogo);
 
 
@@ -45,7 +48,7 @@ function próximoTick() {
             desenharACobra();
             verificarFimDeJogo();
             próximoTick();
-        }, 75)
+        }, 100)
     } else {
         mostrarFimDoJogo();
     }
@@ -155,8 +158,22 @@ function mostrarFimDoJogo() {
     ctx.textAlign = "center"
     ctx.fillText('Acabou o Jogo!', larguraDoJogo / 2, alturaDoJogo / 2)
     ligar = false;
+    telaDeFimDeJogo.classList.add("recomeçar")
+    mostrarScore.innerHTML = contagemDoScore
 };
 function resetarOJogo() {
+    contagemDoScore = 0;
+    velocidadeDoX = tamanhoDoObjeto;
+    velocidadeDoY = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    
+
+    cobra = [{ x: tamanhoDoObjeto, y: 0 },
+    { x: 0, y: 0 }]
+    começarOJogo()
+};
+function recomeçarOJogo(){
     contagemDoScore = 0;
     velocidadeDoX = tamanhoDoObjeto;
     velocidadeDoY = 0;
@@ -165,7 +182,9 @@ function resetarOJogo() {
 
     cobra = [{ x: tamanhoDoObjeto, y: 0 },
     { x: 0, y: 0 }]
+    telaDeFimDeJogo.classList.remove("recomeçar")
     começarOJogo()
-};
+
+}
 
 começarOJogo();
